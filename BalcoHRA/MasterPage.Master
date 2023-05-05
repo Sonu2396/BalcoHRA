@@ -1,0 +1,233 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="MasterPage.master.cs" Inherits="BalcoHRA.MasterPage" %>
+
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>HRA </title>
+    <link href="~/css/plugins/dataTables/datatables.min.css" rel="stylesheet">
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="~/css/animate.css" rel="stylesheet" />
+    <link href="~/css/plugins/codemirror/codemirror.css" rel="stylesheet" />
+    <link href="~/css/plugins/codemirror/ambiance.css" rel="stylesheet" />
+    <link href="~/css/style.css" rel="stylesheet" />
+    <link href="~/css/plugins/iCheck/custom.css" rel="stylesheet" />
+    <link href="~/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet" />
+    <link href="~/css/plugins/chosen/bootstrap-chosen.css" rel="stylesheet" />
+    <link href="~/css/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css" rel="stylesheet" />
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+    <%-- <script type="text/javascript">
+        function preventBack() { window.history.forward(); }
+        setTimeout("preventBack()", 0);
+        window.onunload = function () { null };
+    </script>--%>
+
+    <script type="text/javascript">
+        if (document.layers) {
+            //Capture the MouseDown event.
+            document.captureEvents(Event.MOUSEDOWN);
+
+            //Disable the OnMouseDown event handler.
+            document.onmousedown = function () {
+                return false;
+            };
+        }
+        else {
+            //Disable the OnMouseUp event handler.
+            document.onmouseup = function (e) {
+                if (e != null && e.type == "mouseup") {
+                    //Check the Mouse Button which is clicked.
+                    if (e.which == 2 || e.which == 3) {
+                        //If the Button is middle or right then disable.
+                        return false;
+                    }
+                }
+            };
+        }
+
+        //Disable the Context Menu event.
+        document.oncontextmenu = function () {
+            return false;
+        };
+    </script>
+
+
+
+</head>
+<body class="fixed-sidebar ">
+    <form id="form1" runat="server">
+        <cc1:ToolkitScriptManager ID="ToolkitScriptManager1" runat="server" EnableScriptGlobalization="true" EnableScriptLocalization="true"></cc1:ToolkitScriptManager>
+        <div id="wrapper">
+
+            <nav class="navbar-default navbar-static-side" role="navigation">
+                <div class="sidebar-collapse">
+                    <ul class="nav metismenu" id="side-menu">
+                        <li class="nav-header">
+                            <div class="dropdown profile-element">
+                                <asp:Image ID="Image1" class="rounded-circle" runat="server" Height="50px" Width="50px" />
+
+                                <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                    <span class="block m-t-xs font-bold">
+                                        <asp:Label runat="server" ID="lblusername"></asp:Label><asp:Label runat="server" ID="lbluserid" Visible="false"></asp:Label></span>
+                                    <span class="text-muted text-xs block">
+                                        <asp:Label runat="server" ID="lblrole"></asp:Label>
+                                        <b class="caret"></b></span>
+                                </a>
+                                <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                                    <li><a class="dropdown-item" href="../../UserManagement/UserProfile.aspx">Profile</a></li>
+                                    <li>
+                                        <asp:LinkButton runat="server" ID="btnchangepassword" Visible="false" class="dropdown-item" PostBackUrl="~/UserManagement/ChangePassword.aspx">Change Password</asp:LinkButton></li>
+                                    <li class="dropdown-divider"></li>
+                                    <li>
+                                        <asp:LinkButton runat="server" ID="btnlogout" Text="Logout" OnClick="btnlogout_Click"></asp:LinkButton></li>
+                                </ul>
+                            </div>
+                            <div class="logo-element">
+                                HRA
+                            </div>
+                        </li>
+
+
+                        <li>
+                            <a href="../Home.aspx"><i class="fa fa-home"></i><span class="nav-label">Home</span></a>
+                        </li>
+
+                        <li runat="server" id="limenuUserMgt" visible="true">
+                            <a href="#"><i class="fa fa-user"></i><span class="nav-label">User Management</span><span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level collapse">
+                                <li><a href="../../UserManagement/UserRegistration.aspx">User Registration</a></li>
+                            </ul>
+                        </li>
+
+                        <li runat="server" id="limenuMaster" visible="true">
+                            <a href="#"><i class="fa fa-gear"></i><span class="nav-label">Masters</span><span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level collapse">
+                                <li><a href="../../UserManagement/MasterUserRole.aspx">Role Master</a></li>
+                                <li><a href="../../Master/MasterSBU.aspx">SBU Master</a></li>
+                                <li><a href="../../Master/MasterDept.aspx">Area Master</a></li>
+                                <li><a href="../../Master/MasterActivity.aspx">Activity Master</a></li>
+                                <li><a href="../../Master/MasterArea.aspx">Sub Area Master</a></li>
+                            </ul>
+                        </li>
+
+                        <li runat="server" id="liChecklist" visible="true">
+                            <a href="#"><i class="fa fa-gear"></i><span class="nav-label">Checklist Masters</span><span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level collapse">
+                                <li><a href="../../ChecklistMaster/MasterWAH.aspx">Work At Height</a></li>
+                                <li><a href="../../ChecklistMaster/MasterConfinedSpace.aspx">Confined Space</a></li>
+                                <li><a href="../../ChecklistMaster/MasterCriticialLift.aspx">Critical Lift</a></li>
+                                <li><a href="../../ChecklistMaster/MasterExcavation.aspx">Exacavation</a></li>
+                                <li><a href="../../ChecklistMaster/MasterISO.aspx">Isolation</a></li>
+                                <li><a href="../../ChecklistMaster/MasterVPI.aspx">Vehicle & Pedestrain Interaction</a></li>
+                            </ul>
+                        </li>
+
+
+                        <li runat="server" id="liPlan" visible="true">
+                            <a href="#"><i class="fa fa-gear"></i><span class="nav-label">Daily Plan</span><span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level collapse">
+                                <li><a href="../../Job_Entry.aspx">Job Entry</a></li>
+                            </ul>
+                        </li>
+
+                        <li runat="server" id="liPending" visible="true">
+                            <a href="#"><i class="fa fa-gear"></i><span class="nav-label">Pending List</span><span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level collapse">
+                                <li runat="server" id="PendingAdmin"><a href="../../Admin_Approval.aspx">Admin Approval</a></li>
+                                <li runat="server" id="PendingAuditor"><a href="../../Auditor_Entry.aspx">Auditor Entry</a></li>
+
+                            </ul>
+                        </li>
+
+
+                        <li runat="server" id="liReports" visible="true">
+                            <a href="#"><i class="fa fa-gear"></i><span class="nav-label">Reports</span><span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level collapse">
+                                <li><a href="../../Reports/Report.aspx">Daily Reports</a></li>
+                                <li><a href="../../Reports/Compliance_Report.aspx">Compliance Reports</a></li>
+                            </ul>
+                        </li>
+
+
+                    </ul>
+
+
+
+                </div>
+            </nav>
+
+
+
+            <div id="page-wrapper" class="gray-bg">
+                <div class="row border-bottom">
+                    <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                        <div class="navbar-header">
+                            <a class="navbar-minimalize minimalize-styl-2 btn btn-primary "><i class="fa fa-bars"></i></a>
+
+                        </div>
+                        <ul class="nav navbar-top-links navbar-right">
+                            <li>
+                                <span class="m-r-sm text-muted welcome-message">Welcome to HRA Application.</span>
+                            </li>
+
+
+
+                            <li>
+                                <asp:LinkButton runat="server" ID="btnlogout1" OnClick="btnlogout_Click">
+                        <i class="fa fa-sign-out"></i> Log out
+                                </asp:LinkButton>
+                            </li>
+                        </ul>
+
+                    </nav>
+                </div>
+
+                <div>
+
+
+                    <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                    </asp:ContentPlaceHolder>
+
+                </div>
+
+
+                <div class="footer" style="background-color: lightblue">
+                    <div class="float-right">
+                        Powered by <strong>BALCO IT (Version 1.0)</strong>.
+                    </div>
+                    <div>
+                        <strong>HRA.Copyright</strong>  &copy; 2022. All Rights Reserved. 
+                
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </form>
+
+
+    <!-- Mainly scripts -->
+    <script src="js/jquery-3.1.1.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+    <!-- Custom and plugin javascript -->
+    <script src="js/inspinia.js"></script>
+    <script src="js/plugins/pace/pace.min.js"></script>
+
+
+
+
+</body>
+</html>
+
